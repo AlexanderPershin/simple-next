@@ -37,7 +37,7 @@ const Users = ({ users }) => {
         <List className={classes.root}>
           {users.map(item => (
             <React.Fragment key={item.id}>
-              <Link href={`/user/${item.id}`}>
+              <Link href={`/user?id=${item.id}`} as={`/user/${item.id}`}>
                 <ListItem alignItems='flex-start'>
                   <ListItemAvatar>
                     <Avatar
