@@ -2,10 +2,9 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import MuiLink from '@material-ui/core/Link';
-import Button from '@material-ui/core/Button';
+// import fetch from 'isomorphic-unfetch';
 
-export default function About() {
+const About = props => {
   return (
     <Container maxWidth='lg'>
       <Box my={4}>
@@ -15,4 +14,6 @@ export default function About() {
       </Box>
     </Container>
   );
-}
+};
+
+export default About;

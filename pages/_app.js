@@ -112,6 +112,22 @@ function MyApp({ Component, pageProps }) {
                   <ListItemText primary='About' />
                 </ListItem>
               </Link>
+              <Link href='/user/1'>
+                <ListItem button key='/user/1'>
+                  <ListItemIcon>
+                    <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='User 1' />
+                </ListItem>
+              </Link>
+              <Link href='/users'>
+                <ListItem button key='/users'>
+                  <ListItemIcon>
+                    <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='Users' />
+                </ListItem>
+              </Link>
             </List>
           </Drawer>
           <main
