@@ -11,16 +11,35 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import fetch from 'isomorphic-unfetch';
+import theme from '../src/theme';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
-const useStyles = makeStyles(theme =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       width: '100%',
       maxWidth: '100%',
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: theme.palette.background.default,
+      boxShadow: theme.shadows[5],
+      borderRadius: theme.shape.borderRadius
     },
     inline: {
       display: 'inline'
+    },
+    item: {
+      cursor: 'pointer',
+      width: '100%',
+      transition: theme.transitions.create(),
+      backgroundColor: theme.palette.background.default,
+      boxShadow: theme.shadows[1],
+      borderRadius: '0',
+      '&:hover': {
+        color: theme.palette.secondary.main,
+        transform: 'perspective(500px) translate3d(0,0,10px)',
+        boxShadow: theme.shadows[5],
+        zIndex: '100',
+        borderRadius: theme.shape.borderRadius
+      }
     }
   })
 );
@@ -37,31 +56,33 @@ const Users = ({ users }) => {
         <List className={classes.root}>
           {users.map(item => (
             <React.Fragment key={item.id}>
-              <Link href={`/user?id=${item.id}`}>
-                <ListItem alignItems='flex-start'>
-                  <ListItemAvatar>
-                    <Avatar
-                      alt='Remy Sharp'
-                      src={`https://i.pravatar.cc/150?img=${item.id}`}
+              <ButtonBase className={classes.item}>
+                <Link href={`/user?id=${item.id}`}>
+                  <ListItem alignItems='flex-start'>
+                    <ListItemAvatar>
+                      <Avatar
+                        alt='Remy Sharp'
+                        src={`https://i.pravatar.cc/150?img=${item.id}`}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`User id: ${item.id}`}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component='span'
+                            variant='body2'
+                            className={classes.inline}
+                            color='textPrimary'
+                          >
+                            {item.name}. Currently lives in {item.address.city}
+                          </Typography>
+                        </React.Fragment>
+                      }
                     />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={`User id: ${item.id}`}
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component='span'
-                          variant='body2'
-                          className={classes.inline}
-                          color='textPrimary'
-                        >
-                          {item.name}. Currently lives in {item.address.city}
-                        </Typography>
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-              </Link>
+                  </ListItem>
+                </Link>
+              </ButtonBase>
               <Divider />
             </React.Fragment>
           ))}

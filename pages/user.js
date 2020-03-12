@@ -1,19 +1,48 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
 import fetch from 'isomorphic-unfetch';
+import Avatar from '@material-ui/core/Avatar';
+import theme from '../src/theme';
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    paper: {
+      minHeight: '100%',
+      padding: theme.spacing(3),
+      backgroundColor: theme.palette.secondary.light,
+      color: theme.palette.secondary.contrastText,
+      boxShadow: theme.shadows[5]
+    },
+    avatar: {
+      width: theme.spacing(10),
+      height: theme.spacing(10)
+    }
+  })
+);
 
 const User = ({ data }) => {
+  const classes = useStyles();
+
   return (
     <Container maxWidth='lg'>
       <Box my={4}>
-        <Typography variant='h1' component='h1' gutterBottom>
-          Next.js Simple app | User {data.id} page
-        </Typography>
-        <Typography variant='h2' component='h2' gutterBottom>
-          This is {data.name}'s page also known as {data.username}
-        </Typography>
+        <Paper elevation={3} className={classes.paper}>
+          <Typography variant='h1' component='h1' gutterBottom>
+            User's {data.id} page
+          </Typography>
+          <Typography variant='body1' component='body1' gutterBottom>
+            <Avatar
+              className={classes.avatar}
+              alt={data.username}
+              src={`https://i.pravatar.cc/150?img=${data.id}`}
+            />
+            This is {data.name}'s page also known as {data.username}
+          </Typography>
+        </Paper>
       </Box>
     </Container>
   );

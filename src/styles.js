@@ -4,8 +4,14 @@ import theme from './theme';
 const drawerWidth = 240;
 
 export default makeStyles(() => ({
+  '@global': {
+    'html, body, #__next': {
+      height: '100%'
+    }
+  },
   root: {
-    display: 'flex'
+    display: 'flex',
+    height: '100%'
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
