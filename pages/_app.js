@@ -25,6 +25,52 @@ import GroupIcon from '@material-ui/icons/Group';
 import SubjectIcon from '@material-ui/icons/Subject';
 import useStyles from '../src/styles';
 import Link from '../src/Link';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Slide from '@material-ui/core/Slide';
+import Fab from '@material-ui/core/Fab';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Zoom from '@material-ui/core/Zoom';
+
+function ScrollTop(props) {
+  const { children, window } = props;
+  const classes = useStyles();
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+    disableHysteresis: true,
+    threshold: 100
+  });
+
+  const handleClick = event => {
+    const anchor = (event.target.ownerDocument || document).querySelector(
+      '#back-to-top-anchor'
+    );
+
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
+  return (
+    <Zoom in={trigger}>
+      <div onClick={handleClick} role='presentation' className={classes.toTop}>
+        {children}
+      </div>
+    </Zoom>
+  );
+}
+
+function HideOnScroll(props) {
+  const { children, window } = props;
+  const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+  return (
+    <Slide appear={false} direction='down' in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
 
 function MyApp({ Component, pageProps }) {
   const classes = useStyles();
@@ -58,44 +104,47 @@ function MyApp({ Component, pageProps }) {
         <div className={classes.root}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <AppBar
-            position='fixed'
-            className={clsx(classes.appBar, {
-              [classes.appBarShift]: open
-            })}
-          >
-            <Toolbar>
-              <IconButton
-                color='inherit'
-                aria-label='open drawer'
-                onClick={handleDrawerOpen}
-                edge='start'
-                className={clsx(classes.menuButton, open && classes.hide)}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Link href='/' className={classes.logo}>
-                <Typography variant='h6' noWrap>
-                  Simple Next.js app
-                </Typography>
-              </Link>
-              <span style={{ flexGrow: 1 }} />
-              <IconButton
-                edge='start'
-                color='inherit'
-                aria-label='open drawer'
-                className={classes.githubIcon}
-                onClick={() =>
-                  window.open(
-                    'https://github.com/AlexanderPershin/simple-next',
-                    '_blank'
-                  )
-                }
-              >
-                <GitHubIcon />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
+          <HideOnScroll {...pageProps}>
+            <AppBar
+              position='fixed'
+              className={clsx(classes.appBar, {
+                [classes.appBarShift]: open
+              })}
+            >
+              <Toolbar>
+                <IconButton
+                  color='inherit'
+                  aria-label='open drawer'
+                  onClick={handleDrawerOpen}
+                  edge='start'
+                  className={clsx(classes.menuButton, open && classes.hide)}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Link href='/' className={classes.logo}>
+                  <Typography variant='h6' noWrap>
+                    Simple Next.js app
+                  </Typography>
+                </Link>
+                <span style={{ flexGrow: 1 }} />
+                <IconButton
+                  edge='start'
+                  color='inherit'
+                  aria-label='open drawer'
+                  className={classes.githubIcon}
+                  onClick={() =>
+                    window.open(
+                      'https://github.com/AlexanderPershin/simple-next',
+                      '_blank'
+                    )
+                  }
+                >
+                  <GitHubIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          </HideOnScroll>
+          <Toolbar id='back-to-top-anchor' />
           <Drawer
             className={classes.drawer}
             variant='persistent'
@@ -174,6 +223,11 @@ function MyApp({ Component, pageProps }) {
             <div className={classes.drawerHeader} />
             <Component {...pageProps} />
           </main>
+          <ScrollTop {...pageProps}>
+            <Fab color='primary' size='small' aria-label='scroll back to top'>
+              <KeyboardArrowUpIcon />
+            </Fab>
+          </ScrollTop>
         </div>
       </ThemeProvider>
     </>

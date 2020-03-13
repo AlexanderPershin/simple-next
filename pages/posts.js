@@ -74,9 +74,7 @@ const Posts = ({ posts }) => {
   );
 };
 
-Posts.getInitialProps = async context => {
-  const { pathname, query, asPath, req, res, err } = context;
-
+export async function getStaticProps() {
   const host = process.env.HOSTNAME
     ? process.env.HOSTNAME
     : 'http://localhost:3000';
@@ -84,7 +82,11 @@ Posts.getInitialProps = async context => {
   const response = await fetch(`${host}/api/posts`);
   const postData = await response.json();
 
-  return { posts: postData.data };
-};
+  return {
+    props: {
+      posts: postData.data
+    }
+  };
+}
 
 export default Posts;
