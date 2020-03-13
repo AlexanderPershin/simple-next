@@ -51,7 +51,7 @@ const Users = ({ users }) => {
     <Container maxWidth='lg'>
       <Box my={4}>
         <Typography variant='h1' component='h1' gutterBottom>
-          Next.js Simple app | Users page
+          Users page
         </Typography>
         <List className={classes.root}>
           {users.map(item => (

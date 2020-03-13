@@ -10,7 +10,7 @@ export default function Index() {
     <Container maxWidth='lg'>
       <Box my={4}>
         <Typography variant='h1' component='h1' gutterBottom>
-          Next.js simple app
+          Welcome!
         </Typography>
       </Box>
     </Container>

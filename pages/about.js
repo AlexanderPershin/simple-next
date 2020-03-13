@@ -9,7 +9,7 @@ const About = props => {
     <Container maxWidth='lg'>
       <Box my={4}>
         <Typography variant='h1' component='h1' gutterBottom>
-          Next.js Simple app | About page
+          About page
         </Typography>
       </Box>
     </Container>
