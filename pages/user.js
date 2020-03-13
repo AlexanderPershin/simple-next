@@ -34,12 +34,12 @@ const User = ({ data }) => {
           <Typography variant='h1' component='h1' gutterBottom>
             User's {data.id} page
           </Typography>
-          <Typography variant='body1' component='body1' gutterBottom>
-            <Avatar
-              className={classes.avatar}
-              alt={data.username}
-              src={`https://i.pravatar.cc/150?img=${data.id}`}
-            />
+          <Avatar
+            className={classes.avatar}
+            alt={data.username}
+            src={`https://i.pravatar.cc/150?img=${data.id}`}
+          />
+          <Typography variant='body1' gutterBottom>
             This is {data.name}'s page also known as {data.username}
           </Typography>
         </Paper>
@@ -59,8 +59,9 @@ User.getInitialProps = async context => {
 
   const response = await fetch(`${host}/api/user/${id}`);
 
-  const data = await response.json();
-  return { data };
+  const userData = await response.json();
+
+  return { data: userData.data };
 };
 
 export default User;
