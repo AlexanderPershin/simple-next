@@ -18,8 +18,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import HomeIcon from '@material-ui/icons/Home';
+import InfoIcon from '@material-ui/icons/Info';
+import GroupIcon from '@material-ui/icons/Group';
+import SubjectIcon from '@material-ui/icons/Subject';
 import useStyles from '../src/styles';
 import Link from '../src/Link';
 
@@ -71,9 +74,26 @@ function MyApp({ Component, pageProps }) {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant='h6' noWrap>
-                Simple Next.js app
-              </Typography>
+              <Link href='/' className={classes.logo}>
+                <Typography variant='h6' noWrap>
+                  Simple Next.js app
+                </Typography>
+              </Link>
+              <span style={{ flexGrow: 1 }} />
+              <IconButton
+                edge='start'
+                color='inherit'
+                aria-label='open drawer'
+                className={classes.githubIcon}
+                onClick={() =>
+                  window.open(
+                    'https://github.com/AlexanderPershin/simple-next',
+                    '_blank'
+                  )
+                }
+              >
+                <GitHubIcon />
+              </IconButton>
             </Toolbar>
           </AppBar>
           <Drawer
@@ -96,34 +116,50 @@ function MyApp({ Component, pageProps }) {
             </div>
             <Divider />
             <List>
-              <Link href='/'>
+              <Link
+                href='/'
+                className={classes.menuLink}
+                activeClassName={classes.activeLink}
+              >
                 <ListItem button key='/'>
                   <ListItemIcon>
-                    <InboxIcon />
+                    <HomeIcon />
                   </ListItemIcon>
                   <ListItemText primary='Home' />
                 </ListItem>
               </Link>
-              <Link href='/about'>
+              <Link
+                href='/about'
+                className={classes.menuLink}
+                activeClassName={classes.activeLink}
+              >
                 <ListItem button key='/about'>
                   <ListItemIcon>
-                    <InboxIcon />
+                    <InfoIcon />
                   </ListItemIcon>
                   <ListItemText primary='About' />
                 </ListItem>
               </Link>
-              <Link href='/posts'>
+              <Link
+                href='/posts'
+                className={classes.menuLink}
+                activeClassName={classes.activeLink}
+              >
                 <ListItem button key='/posts'>
                   <ListItemIcon>
-                    <InboxIcon />
+                    <SubjectIcon />
                   </ListItemIcon>
                   <ListItemText primary='Posts' />
                 </ListItem>
               </Link>
-              <Link href='/users'>
+              <Link
+                href='/users'
+                className={classes.menuLink}
+                activeClassName={classes.activeLink}
+              >
                 <ListItem button key='/users'>
                   <ListItemIcon>
-                    <InboxIcon />
+                    <GroupIcon />
                   </ListItemIcon>
                   <ListItemText primary='Users' />
                 </ListItem>

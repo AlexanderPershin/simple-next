@@ -1,13 +1,9 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import fetch from 'isomorphic-unfetch';
-import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
-import Divider from '@material-ui/core/Divider';
 import Link from 'next/link';
 import theme from '../src/theme';
 import clsx from 'clsx';
@@ -15,7 +11,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const useStyles = makeStyles(() =>

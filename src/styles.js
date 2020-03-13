@@ -9,6 +9,10 @@ export default makeStyles(() => ({
       height: '100%'
     }
   },
+  logo: { color: theme.palette.primary.contrastText },
+  githubIcon: {
+    justifySelf: 'flex-end'
+  },
   root: {
     display: 'flex',
     height: '100%'
@@ -65,5 +69,15 @@ export default makeStyles(() => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
+  },
+  menuLink: {
+    color: theme.palette.text.primary
+  },
+  activeLink: {
+    color: theme.palette.primary.main,
+    textDecoration: 'line-through',
+    '&:hover': {
+      textDecoration: 'line-through'
+    }
   }
 }));
