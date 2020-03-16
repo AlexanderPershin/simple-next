@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import fetch from 'isomorphic-unfetch';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
-import theme from '../src/theme';
+import theme from '../../src/theme';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -135,7 +135,7 @@ const User = ({ data, posts }) => {
           </Typography>
           <List component='nav' aria-label='main mailbox folders'>
             {posts.map(item => (
-              <Link key={item.title} href={`/post?id=${item.id}`}>
+              <Link key={item.title} href={`/post/${item.id}`}>
                 <ListItem button>
                   <ListItemIcon>
                     <ArrowForwardIosIcon />
@@ -151,22 +151,38 @@ const User = ({ data, posts }) => {
   );
 };
 
-User.getInitialProps = async context => {
-  const { pathname, query, asPath, req, res, err } = context;
+export async function getStaticPaths() {
+  // Call an external API endpoint to get posts
+  const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
+  const usersData = await response.json();
 
-  const host = process.env.HOSTNAME
-    ? process.env.HOSTNAME
-    : 'http://localhost:3000';
+  // Get the paths we want to pre-render based on posts
+  const paths = usersData.map(user => `/user/${user.id}`);
 
-  const { id } = query;
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: false };
+}
 
-  const response = await fetch(`${host}/api/user/${id}`);
+export async function getStaticProps({ params }) {
+  const { id } = params;
+
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/users?id=${id}`
+  );
   const userData = await response.json();
+  const userHimself = userData[0];
 
-  const response2 = await fetch(`${host}/api/posts?userId=${id}`);
-  const userPostsData = await response2.json();
+  if (userHimself.id) {
+    const response2 = await fetch(
+      `https://jsonplaceholder.typicode.com/posts?userId=${userHimself.id}`
+    );
+    const postsData = await response2.json();
 
-  return { data: userData.data, posts: userPostsData.data };
-};
+    return { props: { data: userHimself, posts: postsData } };
+  }
+
+  return { data: userHimself };
+}
 
 export default User;

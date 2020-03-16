@@ -57,7 +57,7 @@ const Users = ({ users }) => {
           {users.map(item => (
             <React.Fragment key={item.id}>
               <ButtonBase className={classes.item}>
-                <Link href={`/user?id=${item.id}`}>
+                <Link href={`/user/${item.id}`}>
                   <ListItem alignItems='flex-start'>
                     <ListItemAvatar>
                       <Avatar
@@ -92,18 +92,16 @@ const Users = ({ users }) => {
   );
 };
 
-Users.getInitialProps = async context => {
-  const { pathname, query, asPath, req, res, err } = context;
+export async function getStaticProps(context) {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
+  const usersData = await response.json();
+  console.log('getStaticProps -> usersData', usersData);
 
-  const host = process.env.HOSTNAME
-    ? process.env.HOSTNAME
-    : 'http://localhost:3000';
-
-  const response = await fetch(`${host}/api/users`);
-
-  const data = await response.json();
-
-  return { users: data.data };
-};
+  return {
+    props: {
+      users: usersData
+    }
+  };
+}
 
 export default Users;
