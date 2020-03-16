@@ -237,14 +237,9 @@ const users = [
 export default async (req, res) => {
   const { id } = req.query;
 
-  // const response = await fetch(
-  //   `https://jsonplaceholder.typicode.com/users/${id}`
-  // );
-  // const data = await response.json();
-
   const user = users.find(item => item.id === parseInt(id));
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify({ data: user }));
+  res.end(JSON.stringify({ ...user }));
 };

@@ -722,18 +722,18 @@ export default async (req, res) => {
 
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ data: userPosts }));
+    res.end(JSON.stringify(userPosts));
     return;
   } else if (id) {
     const post = posts.find(item => item.id === parseInt(id));
 
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ data: post }));
+    res.end(JSON.stringify(post));
     return;
   }
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify({ data: posts }));
+  res.end(JSON.stringify(posts));
 };

@@ -7,6 +7,25 @@ export default makeStyles(() => ({
   '@global': {
     'html, body, #__next': {
       height: '100%'
+    },
+    'body::-webkit-scrollbar': {
+      width: theme.spacing(2)
+    },
+    'body::-webkit-scrollbar-track': {
+      backgroundColor: theme.palette.primary.main,
+      borderLeft: `1px solid ${theme.palette.primary.light}`
+    },
+    'body::-webkit-scrollbar-thumb': {
+      backgroundColor: `rgba(255,255,255,0)`,
+      borderTop: `3px solid ${theme.palette.background.default}`,
+      borderBottom: `3px solid ${theme.palette.background.default}`,
+      transition: theme.transitions.create(),
+      '&:hover': {
+        backgroundColor: `rgba(255,255,255,0.1)`
+      },
+      '&:active': {
+        backgroundColor: `rgba(255,255,255,0.2)`
+      }
     }
   },
   logo: { color: theme.palette.primary.contrastText },
