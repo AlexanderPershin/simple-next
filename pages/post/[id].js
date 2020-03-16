@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 import Link from 'next/link';
-import theme from '../src/theme';
+import theme from '../../src/theme';
 import clsx from 'clsx';
 
 const useStyles = makeStyles(() =>
@@ -80,25 +80,39 @@ const Post = ({ post, author }) => {
   );
 };
 
-Post.getInitialProps = async context => {
-  const { pathname, query, asPath, req, res, err } = context;
-
-  const host = process.env.HOSTNAME
-    ? process.env.HOSTNAME
-    : 'http://localhost:3000';
-
-  const { id } = query;
-
-  const response = await fetch(`${host}/api/posts?id=${id}`);
+export async function getStaticPaths() {
+  // Call an external API endpoint to get posts
+  const response = await fetch(`https://jsonplaceholder.typicode.com/posts`);
   const postData = await response.json();
 
-  if (postData.data.userId) {
-    const response2 = await fetch(`${host}/api/user/${postData.data.userId}`);
+  // Get the paths we want to pre-render based on posts
+  const paths = postData.map(post => `/post/${post.id}`);
+
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  const { id } = params;
+
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts?id=${id}`
+  );
+  const postData = await response.json();
+  const postItself = postData[0];
+
+  if (postItself.userId) {
+    const response2 = await fetch(
+      `https://jsonplaceholder.typicode.com/users?id=${postItself.userId}`
+    );
     const userData = await response2.json();
-    return { post: postData.data, author: userData.data };
+    const userHimself = userData[0];
+
+    return { props: { post: postItself, author: userHimself } };
   }
 
-  return { post: postData.data };
-};
+  return { post: postItself };
+}
 
 export default Post;

@@ -58,7 +58,7 @@ const Posts = ({ posts }) => {
         >
           <List component='nav' aria-label='main mailbox folders'>
             {posts.map(item => (
-              <Link key={item.title} href={`/post?id=${item.id}`}>
+              <Link key={item.title} href={`/post/${item.id}`}>
                 <ListItem button>
                   <ListItemIcon>
                     <ArrowForwardIosIcon />
@@ -74,17 +74,13 @@ const Posts = ({ posts }) => {
   );
 };
 
-export async function getStaticProps() {
-  const host = process.env.HOSTNAME
-    ? process.env.HOSTNAME
-    : 'http://localhost:3000';
-
-  const response = await fetch(`${host}/api/posts`);
+export async function getStaticProps(context) {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/posts`);
   const postData = await response.json();
 
   return {
     props: {
-      posts: postData.data
+      posts: postData
     }
   };
 }
