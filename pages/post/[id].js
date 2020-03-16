@@ -72,7 +72,7 @@ const Post = ({ post, author, comments }) => {
             {post.body}
           </Typography>
           <Divider />
-          <Link href={`/user?id=${author.id}`}>
+          <Link href={`/user/${author.id}`}>
             <Chip
               className={classes.author}
               avatar={
