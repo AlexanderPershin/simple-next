@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import clsx from 'clsx';
-import { makeStyles, useTheme, createStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -26,12 +26,22 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import useStyles from '../src/styles';
 import Link from '../src/Link';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
 import Slide from '@material-ui/core/Slide';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Zoom from '@material-ui/core/Zoom';
+import Link2 from '@material-ui/core/Link';
+
+const ColorIcon = withStyles(theme => ({
+  root: {
+    color: theme.palette.primary.contrastText,
+    backgroundColor: 'rgba(0,0,0,0)',
+    transition: theme.transitions.create(),
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.1)'
+    }
+  }
+}))(IconButton);
 
 function ScrollTop(props) {
   const { children, window } = props;
@@ -127,20 +137,19 @@ function MyApp({ Component, pageProps }) {
                   </Typography>
                 </Link>
                 <span style={{ flexGrow: 1 }} />
-                <IconButton
-                  edge='start'
-                  color='inherit'
-                  aria-label='open drawer'
-                  className={classes.githubIcon}
-                  onClick={() =>
-                    window.open(
-                      'https://github.com/AlexanderPershin/simple-next',
-                      '_blank'
-                    )
-                  }
+                <Link2
+                  href='https://github.com/AlexanderPershin/simple-next'
+                  target='_blank'
                 >
-                  <GitHubIcon />
-                </IconButton>
+                  <ColorIcon
+                    color='default'
+                    edge='start'
+                    aria-label='open drawer'
+                    className={classes.githubIcon}
+                  >
+                    <GitHubIcon />
+                  </ColorIcon>
+                </Link2>
               </Toolbar>
             </AppBar>
           </HideOnScroll>

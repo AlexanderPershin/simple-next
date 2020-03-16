@@ -11,6 +11,9 @@ import Divider from '@material-ui/core/Divider';
 import Link from 'next/link';
 import theme from '../../src/theme';
 import clsx from 'clsx';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -41,11 +44,18 @@ const useStyles = makeStyles(() =>
       '&:hover': {
         textDecoration: 'underline'
       }
+    },
+    commentItem: {
+      boxShadow: theme.shadows[3],
+      marginBottom: theme.spacing(1),
+      minHeight: theme.spacing(10),
+      backgroundColor: theme.palette.primary.main,
+      borderRadius: theme.shape.borderRadius
     }
   })
 );
 
-const Post = ({ post, author }) => {
+const Post = ({ post, author, comments }) => {
   const classes = useStyles();
 
   return (
@@ -74,6 +84,40 @@ const Post = ({ post, author }) => {
               label={author.name}
             />
           </Link>
+        </Paper>
+        <Paper
+          elevation={3}
+          className={clsx(classes.paper, classes.paperPosts)}
+        >
+          <Typography variant='h3' gutterBottom>
+            Comments:
+          </Typography>
+          <List className={classes.root}>
+            {comments.map(item => (
+              <ListItem
+                key={item.id}
+                alignItems='flex-start'
+                className={classes.commentItem}
+              >
+                <ListItemText
+                  primary={item.body}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component='span'
+                        variant='body2'
+                        className={classes.inline}
+                        color='textPrimary'
+                      >
+                        {item.email}
+                      </Typography>
+                      {` — ${item.name}`}
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+            ))}
+          </List>
         </Paper>
       </Box>
     </Container>
@@ -109,7 +153,14 @@ export async function getStaticProps({ params }) {
     const userData = await response2.json();
     const userHimself = userData[0];
 
-    return { props: { post: postItself, author: userHimself } };
+    const response3 = await fetch(
+      `https://jsonplaceholder.typicode.com/comments?postId=${postItself.id}`
+    );
+    const commentsData = await response3.json();
+
+    return {
+      props: { post: postItself, author: userHimself, comments: commentsData }
+    };
   }
 
   return { post: postItself };
